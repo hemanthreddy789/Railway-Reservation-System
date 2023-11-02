@@ -1,10 +1,15 @@
 package HemanthDsaProject;
+
 import java.util.Random;
 import java.util.LinkedList;
 import java.util.Queue;
+
+// This class represents the implementation of the RailwayReservationSystem interface.
 public class trainAndPassenger implements RailwayReservationSystem {
+    // Queues to store station information and booked tickets.
     Queue<StationInfo> stations = new LinkedList<>();
-    Queue<BookingInfo> booking = new LinkedList<>();
+    Queue<BookingInfo> booking = new LinkedList();
+    
     int AvailableSeats;
     int newTicketNumber;
     public int seatNumber;
@@ -14,6 +19,7 @@ public class trainAndPassenger implements RailwayReservationSystem {
         AvailableSeats = 1000;
     }
 
+    // Inner class to represent booking information.
     class BookingInfo {
         String firstName;
         String lastName;
@@ -40,14 +46,15 @@ public class trainAndPassenger implements RailwayReservationSystem {
         }
     }
 
-
     @Override
     public void bookTrainTicket(String firstName, String lastName, String stationName, String trainName, int trainNumber, int date, int month, int year) {
+        // Check if the provided date is valid.
         if (date > 31 || month > 12 || year != 2023 || date <= 0 || month <= 0) {
             System.out.println("Please provide a valid date.");
         } else if (seatNumber > AvailableSeats) {
-            System.out.println("The seats are not available for this train Mr/Mrs " + firstName + " " + lastName + ".");
+            System.out.println("The seats are not available for this train, Mr/Mrs " + firstName + " " + lastName + ".");
         } else {
+            // Add the train schedule.
             addTrainSchedule();
             boolean found = false;
             for (StationInfo station : stations) {
@@ -58,10 +65,12 @@ public class trainAndPassenger implements RailwayReservationSystem {
             }
 
             if (found) {
+                // Generate a unique ticket number.
                 do {
                     newTicketNumber = new Random().nextInt(100000);
                 } while (isTicketNumberUsed(newTicketNumber));
 
+                // Create and store booking information.
                 booking.add(new BookingInfo(firstName, lastName, stationName, trainName, trainNumber, date, month, year, newTicketNumber, seatNumber));
                 System.out.println("---------------------------------------------------------------------");
                 System.out.println("                               Ticket                ");
@@ -83,6 +92,8 @@ public class trainAndPassenger implements RailwayReservationSystem {
             }
         }
     }
+
+    // Check if a ticket number is used.
     boolean isTicketNumberUsed(int ticketNumber) {
         for (BookingInfo bookingInfo : booking) {
             if (ticketNumber == bookingInfo.ticketNumber) {
@@ -91,6 +102,8 @@ public class trainAndPassenger implements RailwayReservationSystem {
         }
         return false;
     }
+
+    // Inner class to represent station information.
     class StationInfo {
         public String stationName;
         public String trainName;
@@ -108,7 +121,9 @@ public class trainAndPassenger implements RailwayReservationSystem {
             this.year = year;
         }
     }
-    public void addTrainSchedule(){
+
+    // Method to add train schedules to the system.
+    public void addTrainSchedule() {
         stations.add(new StationInfo("Punjab", "Train A", 10000, 11, 11, 2023));
         stations.add(new StationInfo("Delhi", "Train B", 10001, 12, 11, 2023));
         stations.add(new StationInfo("Chandigarh", "Train C", 10002, 13, 11, 2023));
@@ -118,6 +133,7 @@ public class trainAndPassenger implements RailwayReservationSystem {
         stations.add(new StationInfo("Anantapur", "Train G", 10006, 17, 11, 2023));
         stations.add(new StationInfo("Bihar", "Train H", 10007, 18, 11, 2023));
     }
+
     @Override
     public void checkTrainSchedules() {
         addTrainSchedule();
@@ -130,8 +146,8 @@ public class trainAndPassenger implements RailwayReservationSystem {
             System.out.println("Date: " + station.date + "/" + station.month + "/" + station.year);
             System.out.println("---------------------------------------------------------------------");
         }
-
     }
+
     @Override
     public void passengerDetails(String firstName, String lastName, String trainName) {
         boolean found = false;
@@ -158,6 +174,7 @@ public class trainAndPassenger implements RailwayReservationSystem {
             System.out.println("Passenger with the name " + firstName + " " + lastName + " on " + trainName + " not found.");
         }
     }
+
     @Override
     public void cancelTrainTickets(String firstName, String lastName, String trainName, int trainNumber) {
         boolean found = false;
@@ -187,5 +204,4 @@ public class trainAndPassenger implements RailwayReservationSystem {
             System.out.println("Passenger with the name " + firstName + " " + lastName + " not found or no matching booking found for cancellation.");
         }
     }
-
 }
