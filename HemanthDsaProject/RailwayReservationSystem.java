@@ -1,10 +1,17 @@
 package HemanthDsaProject;
 
+// This interface represents a Railway Reservation System.
 public interface RailwayReservationSystem {
-    void bookTrainTicket(String firstName,String lastName,String stationName,String trainName,int trainNumber, int date, int month, int year);
+    
+    // Book a train ticket for a passenger.
+    void bookTrainTicket(String firstName, String lastName, String stationName, String trainName, int trainNumber, int date, int month, int year);
+
+    // Check the schedules of available trains.
     void checkTrainSchedules();
-    public void passengerDetails(String firstName,String lastName,String trainName);
+    
+    // Get passenger details for a specific train.
+    void passengerDetails(String firstName, String lastName, String trainName);
 
-    void cancelTrainTickets(String firstName,String lastName,String trainName,int trainNumber);
-
+    // Cancel a train ticket for a passenger.
+    void cancelTrainTickets(String firstName, String lastName, String trainName, int trainNumber);
 }
